@@ -1,0 +1,45 @@
+{
+    "name": "Pokedex, catch them all",
+    "short_name": "Pokedex",
+    "start_url": "./index.html",
+    "scope": ".",
+    "display": "standalone",
+    "theme_color": "#f15368",
+    "background_color": "#23252d",
+    "description": "Web app that lets you learn more about pokemons",
+    "dir": "ltr",
+    "lang": "en-EN",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "./src/assets/icons/pokeball-32.png",
+            "type": "image/png",
+            "sizes": "32x32"
+        },
+        {
+            "src": "./src/assets/icons/pokeball-48.png",
+            "type": "image/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "./src/assets/icons/pokeball-100.png",
+            "type": "image/png",
+            "sizes": "100x100"
+        },
+        {
+            "src": "./src/assets/icons/pokeball-144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        },
+        {
+            "src": "./src/assets/icons/pokeball-256.png",
+            "type": "image/png",
+            "sizes": "256x256"
+        },
+        {
+            "src": "./src/assets/icons/pokeball-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
