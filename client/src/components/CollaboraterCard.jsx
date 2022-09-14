@@ -17,9 +17,7 @@ const CollaboraterCard = ({user}) => {
                 </div>
                 
                 <h4 className={`${styles.cardText}`}>azeza</h4>
-                <div className={`${styles.flex}`} class="flex title mt-4">
-                    <h6 class="card-subtitle mb-2 text-muted">azeaze</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">aze</h6>
+                <div className={`${styles.flex}`}>
                 </div>
                 
             </div>

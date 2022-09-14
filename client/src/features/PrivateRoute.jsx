@@ -22,7 +22,7 @@ export default function PrivateRoute({ children }) {
         }) 
 
     }, [])
-    
+
     if (isTokenValid) {
         return children;
     }
