@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {useSelector, useDispatch} from "react-redux";
 import { getCollaboratersList } from "../services/Api.service";
 import { getFromSessionStorage } from '../services/SessionStorage.service';
@@ -11,6 +11,7 @@ import styles from "../styles/Main.module.css";
 const CollaboratersList = () => {
     const dispatch = useDispatch()
     const { collaboraters, collaboratersToDisplay } = useSelector(state => state.collaboraters)
+    const enableNextResult = useRef(true);
 
     const token = getFromSessionStorage('token');
     useEffect(()=>{
@@ -27,38 +28,35 @@ const CollaboratersList = () => {
         window.addEventListener('scroll', onScroll);
 
         return () => {
-        window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('scroll', onScroll);
         }
-    }, [])
+    }, [collaboraters, collaboratersToDisplay])
 
     function onScroll () {
-        let scrollY = Math.ceil(window.scrollY);
-        let documentHeight = document.documentElement.scrollHeight;
-        let innerHeight = window.innerHeight;
+        
+        const scrollY = Math.ceil(window.scrollY);
+        const documentHeight = document.documentElement.scrollHeight;
+        const innerHeight = window.innerHeight;
     
-        if (scrollY >= documentHeight - innerHeight) {
-        //   setIsNextResultLoading(true)
-        //   const result = getPokemons(next.current);
-        //   result.then(res => {
-            // setIsNextResultLoading(false)
-            const currentIndex = 10
-            console.log(collaboratersToDisplay);
-            const collaboratersList = collaboraters.slice(currentIndex, 10);
+        if (scrollY >= documentHeight - innerHeight && collaboratersToDisplay && collaboraters && enableNextResult.current) {
+            const collaboratersLength = collaboraters.length;
+            const currentIndex = collaboratersToDisplay.length;
+            let numberOfNewCollaboratersToDisplay = 0;
+            if (collaboratersLength - currentIndex > 10) {
+                numberOfNewCollaboratersToDisplay = 10;
+            }else{
+                numberOfNewCollaboratersToDisplay = collaboratersLength - currentIndex;
+            }
+            const slicedCollaboraters = collaboraters.slice(currentIndex, currentIndex + numberOfNewCollaboratersToDisplay);
+            dispatch(setCollaboratersToDisplay({collaboratersToDisplay: slicedCollaboraters}))
 
-            dispatch(addAllCollaboraters({setCollaboratersToDisplay: collaboratersList}))
-
-        //   })
         }
-        // if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        //   topPageButton.current.style.display = "block";
-        // } else {
-        //   topPageButton.current.style.display = "none";
-        // }
+
     }
 
     return (
         <>
-        <Search />
+        <Search enableNextResult={enableNextResult} />
         <div className={styles.collaboratersListContainer}>
             {
                 collaboratersToDisplay &&

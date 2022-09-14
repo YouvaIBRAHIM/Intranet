@@ -17,16 +17,20 @@ export const CollaboratersSlice = createSlice({
       state.collaboratersToDisplay = state.collaboraters.slice(0, 10);
     },
     setCollaboratersToDisplay: (state, action) => {
+      const collaboratersToDisplay = action.payload.collaboratersToDisplay;
+      state.collaboratersToDisplay = state.collaboratersToDisplay.concat(collaboratersToDisplay);
+    },
+    filterCollaboratersToDisplay: (state, action) => {
       state.collaboratersToDisplay = action.payload.collaboratersToDisplay;
     },
     /**
-     * efface les collaborateurs à afficher de la home page
+     * affiche les 10 premiers collaborateurs dans la home page
      */
-    clearCollaboraters: (state) => {
-      state.collaboratersToDisplay = null;
+    displayTenFirstCollaboraters: (state) => {
+      state.collaboratersToDisplay = state.collaboraters.slice(0, 10);
     }
   },
 });
 
-export const { addAllCollaboraters, setCollaboratersToDisplay, clearCollaboraters } = CollaboratersSlice.actions;
+export const { addAllCollaboraters, setCollaboratersToDisplay, filterCollaboratersToDisplay, displayTenFirstCollaboraters } = CollaboratersSlice.actions;
 export default CollaboratersSlice.reducer;

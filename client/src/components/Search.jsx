@@ -1,9 +1,13 @@
 import { useState } from "react";
 import styles from "../styles/Search.module.css";
+import {useSelector, useDispatch} from "react-redux";
+import { filterCollaboratersToDisplay, displayTenFirstCollaboraters } from "../reducers/CollaboratersReducer";
 
-const Search = () => {
+const Search = ({enableNextResult}) => {
+    const { collaboraters, collaboratersToDisplay } = useSelector(state => state.collaboraters)
     const [ typeFilter, setTypeFilter ] = useState('name')
     const [ serviceFilter, setServiceFilter ] = useState('noFilter')
+    const dispatch = useDispatch();
 
     const onHandleTypeFilter = (event) => {
         if (event.target.type === "radio") {
@@ -16,10 +20,27 @@ const Search = () => {
             setServiceFilter(event.target.id)
         }
     }
+    const onSearch = (event) => {
+        const searchValue = event.target.value;
+
+        // si le contenu de la recherche est vide, on affiche les premiers 10 collaborateurs
+        if (searchValue.trim() == "") {
+            enableNextResult.current = true;
+            return dispatch(displayTenFirstCollaboraters())
+        }
+
+        const filtredCollaborater =  collaboraters.filter((collaborater) => {
+            const collaboraterFullname = `${collaborater.firstname} ${collaborater.lastname}`.toLowerCase();
+            return collaboraterFullname.includes(searchValue.trim().toLowerCase())
+        });
+        enableNextResult.current = false;
+        dispatch(filterCollaboratersToDisplay({collaboratersToDisplay: filtredCollaborater}))
+
+    }
     return (
         <div className={styles.searchContainer}>
             <div className={styles.inputContainer}>
-                <input type="search" placeholder="Rechercher"/>
+                <input onChange={onSearch} type="search" placeholder="Rechercher"/>
             </div>
             <div className={styles.filterContainer}>
                 <div className={styles.typeFilter}>
