@@ -20,7 +20,6 @@ export default function PrivateRoute({ children }) {
         .catch(err => {
             navigate("/");;
         }) 
-
     }, [])
 
     if (isTokenValid) {

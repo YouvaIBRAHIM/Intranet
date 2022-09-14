@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { getRandomCollaborater } from "../services/Api.service";
 import { getFromSessionStorage } from '../services/SessionStorage.service';
 import CollaboraterCard from "../components/CollaboraterCard";

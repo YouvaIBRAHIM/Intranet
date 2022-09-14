@@ -1,0 +1,160 @@
+.collaboraterCardContainer,
+.collaboraterCardContainer .cardBody,
+.collaboraterCardContainer .mainInfos,
+.collaboraterCardContainer .contactInfos,
+.collaboraterCardContainer .birthdate,
+.collaboraterCardContainer .actionButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+.collaboraterCardContainer{
+    justify-content: space-between;
+    flex-direction: column;
+    width: 90%;
+    margin: 25px auto;
+    height: auto;
+    -webkit-box-shadow: 2px 2px 12px -5px #00000050; 
+    box-shadow: 2px 2px 12px -5px #00000050;
+}
+.collaboraterCardContainer .collaboraterCardImg{
+    width: 100%;
+    -webkit-box-shadow: 2px 2px 12px -5px #00000050; 
+    box-shadow: 2px 2px 12px -5px #00000050;
+}
+.cardBody {
+    flex-direction: column;
+    width: 100%;
+}
+
+.collaboraterCardContainer .mainInfos .fullname,
+.collaboraterCardContainer .locationInfos .location,
+.collaboraterCardContainer .contactInfos a,
+.collaboraterCardContainer .birthdate span{
+    padding: 0 15px;
+}
+.collaboraterCardContainer .topCardBody{
+    align-self: flex-end;
+}
+
+.collaboraterCardContainer .service{
+    padding: 10px 20px;
+    margin: 0;
+    color: white;
+    background-color: black;
+    font-size: 18px;
+}
+
+.collaboraterCardContainer .mainInfos,
+.collaboraterCardContainer .locationInfos,
+.collaboraterCardContainer .contactInfos,
+.collaboraterCardContainer .birthdate{
+    justify-content: flex-start;
+    width: 100%;
+}
+.collaboraterCardContainer .mainInfos .fullname {
+    margin: 20px 0 10px 0; 
+}
+.collaboraterCardContainer .mainInfos span {
+    margin: 20px 0 10px 10px; 
+}
+.collaboraterCardContainer .contactInfos{
+    height: 75px;
+    flex-direction:column;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.collaboraterCardContainer .contactInfos a{
+    color: #403866;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.collaboraterCardContainer .age{
+    margin-left: 10px;
+    color: #555;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.collaboraterCardContainer .birthdate{
+    font-size: 16px;
+    height: 50px;
+    align-items: center;
+}
+
+.collaboraterCardContainer .icon{
+    font-size: 18px;
+    margin: 0 10px 0 0;
+}
+
+.collaboraterCardContainer .actionButtons{
+    width: 100%;
+    height: 40px;
+    margin: 10px 0;
+}
+.collaboraterCardContainer .actionButtons button{
+    margin: 0 15px;
+    width: 40%;
+    height: 100%;
+    border: none;
+    transition: 200ms ease-in;
+    color: white;
+}
+
+.collaboraterCardContainer .actionButtons .edit{
+    background-color: #403866;
+
+}
+.collaboraterCardContainer .actionButtons .edit:hover{
+    color: #403866;
+    border: 1px solid #403866;
+    background-color: white;
+}
+
+.collaboraterCardContainer .actionButtons .delete{
+    background-color: #d32714;
+
+}
+.collaboraterCardContainer .actionButtons .delete:hover{
+    color: #d32714;
+    border: 1px solid #d32714;
+    background-color: white;
+}
+
+@media (min-width: 550px) {
+
+    .collaboraterCardContainer{
+        flex-direction: row;
+        max-width: 500px!important;
+        height: 250px;
+        flex-direction: row;
+    }
+
+    .collaboraterCardContainer *,
+    .collaboraterCardContainer .age{
+        font-size: 12px;
+    }
+
+    .collaboraterCardContainer .mainInfos .fullname{
+        font-size: 20px;
+        margin: 10px 0 5px 0;
+        padding-right: 0;
+    }
+
+    
+    .collaboraterCardContainer .collaboraterCardImg{
+        width: 250px;
+        height: 250px;
+    }
+
+    .cardBody {
+        height: 250px;
+    }
+
+    .collaboraterCardContainer .actionButtons button{
+        width: 30%;
+    }
+}
