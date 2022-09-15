@@ -1,9 +1,10 @@
+import {useSelector} from "react-redux";
 import styles from "../styles/CollaboraterCard.module.css";
-import moment from "moment";
-import 'moment/dist/locale/fr';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationPin, faEnvelope, faPhone, faBirthdayCake } from '@fortawesome/free-solid-svg-icons';
-import {useSelector} from "react-redux";
+import moment from "moment";
+import 'moment/dist/locale/fr';
+import { Link } from "react-router-dom";
 
 const CollaboraterCard = ({user}) => {
     const userState = useSelector(state => state.user);
@@ -39,7 +40,7 @@ const CollaboraterCard = ({user}) => {
                 {
                     userState?.user.isAdmin &&
                     <div className={styles.actionButtons}>
-                        <button className={styles.edit}>Éditer</button>
+                        <Link to={`/collaboraters/${user.id}`} className={styles.edit}>Éditer</Link>
                         <button className={styles.delete}>Supprimer</button>
                     </div>
                 }

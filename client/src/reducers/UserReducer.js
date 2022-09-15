@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getFromSessionStorage, setToSessionStorage } from "../services/SessionStorage.service";
-
+import { parseJwt } from "../services/Utils.service";
 
 let initialState;
-const userOnSessionStorage = getFromSessionStorage('user');
-if (userOnSessionStorage && tokenOnSessionStorage) {
+const token = getFromSessionStorage('token');
+if (token) {
+  const user = parseJwt(token);
   initialState = {
-    user: userOnSessionStorage,
+    user: user,
   }
 }else{
   initialState = {
@@ -34,13 +35,10 @@ export const UserSlice = createSlice({
      * Enregistre les informations de l'utilisateur dans le state global et dans le SessionStorage
      */
     setUserInfo: (state, action) => {
-      state = action.payload.user;
-      setToSessionStorage('user', JSON.stringify(state));
+      state.user = action.payload.user;
     }
-
-  },
+  }
 });
-
 
 export const { setUserInfo } = UserSlice.actions;
 

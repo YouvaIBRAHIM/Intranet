@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from "react-redux";
 import { filterCollaboratersToDisplay, displayTenFirstCollaboraters } from "../reducers/CollaboratersReducer";
 
 const Search = ({enableNextResult}) => {
-    const { collaboraters, collaboratersToDisplay } = useSelector(state => state.collaboraters)
+    const { collaboraters } = useSelector(state => state.collaboraters)
     const searchValue = useRef('')
     const typeFilter = useRef('name')
     const serviceFilter = useRef('noFilter')

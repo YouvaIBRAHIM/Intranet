@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import {useSelector, useDispatch} from "react-redux";
-import { getCollaboratersList } from "../services/Api.service";
-import { getFromSessionStorage } from '../services/SessionStorage.service';
+import { getCollaboratersListFromApi } from "../services/Api.service";
+import { getCollaboraters } from "../services/Collaboraters.service";
 import { addAllCollaboraters, setCollaboratersToDisplay } from "../reducers/CollaboratersReducer";
 import CollaboraterCard from "../components/CollaboraterCard";
 import Search from "../components/Search";
@@ -13,17 +13,8 @@ const CollaboratersList = () => {
     const { collaboraters, collaboratersToDisplay } = useSelector(state => state.collaboraters)
     const enableNextResult = useRef(true);
 
-    const token = getFromSessionStorage('token');
     useEffect(()=>{
-        if (!collaboraters) {
-        const response = getCollaboratersList(token);
-        response.then((res) => {
-            if (res.status == 200) {
-                    const collaboratersList = res.data;
-                    dispatch(addAllCollaboraters({collaboraters: collaboratersList}))
-                }
-            })
-        }
+        getCollaboraters(collaboraters, getCollaboratersListFromApi, addAllCollaboraters, dispatch)
         
         window.addEventListener('scroll', onScroll);
 

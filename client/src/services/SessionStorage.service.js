@@ -10,6 +10,15 @@ export function getFromSessionStorage(key) {
 
 /**
  * 
+ * @param {String} key 
+ * @returns supprime du SessionStorage la clé saisi
+ */
+ export function removeFromSessionStorage(key) {
+    sessionStorage.removeItem(key);
+}
+
+/**
+ * 
  * @param {String} key clé de stockage
  * @param {String} data valeur à stocker dans le SessionStorage
  */

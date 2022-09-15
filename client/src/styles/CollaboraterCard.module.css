@@ -3,11 +3,11 @@
 .collaboraterCardContainer .mainInfos,
 .collaboraterCardContainer .contactInfos,
 .collaboraterCardContainer .birthdate,
-.collaboraterCardContainer .actionButtons {
+.collaboraterCardContainer .actionButtons,
+.collaboraterCardContainer .actionButtons .edit {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 18px;
 }
 .collaboraterCardContainer{
     justify-content: space-between;
@@ -95,7 +95,10 @@
     height: 40px;
     margin: 10px 0;
 }
-.collaboraterCardContainer .actionButtons button{
+.collaboraterCardContainer .actionButtons button,
+.collaboraterCardContainer .actionButtons a{
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 700;
     margin: 0 15px;
     width: 40%;
     height: 100%;
@@ -105,6 +108,8 @@
 }
 
 .collaboraterCardContainer .actionButtons .edit{
+    text-decoration: none;
+    text-align: center;
     background-color: #403866;
 
 }

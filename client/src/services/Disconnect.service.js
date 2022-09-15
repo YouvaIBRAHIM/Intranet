@@ -1,8 +1,6 @@
-import { setToSessionStorage } from "../services/SessionStorage.service";
-import { useNavigate } from "react-router-dom";
+import { removeFromSessionStorage } from "../services/SessionStorage.service";
 
-export function disconnect() {
-    const navigate = useNavigate();
-    setToSessionStorage("token", "");
+export function disconnect(navigate) {
+    removeFromSessionStorage("token");
     navigate('/login');
 }

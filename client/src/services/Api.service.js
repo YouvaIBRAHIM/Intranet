@@ -43,7 +43,7 @@ export async function getRandomCollaborater(token) {
  * @param {String} token 
  * @returns un tableau d'objets de tous les collaborateurs 
  */
- export async function getCollaboratersList(token) {
+ export async function getCollaboratersListFromApi(token) {
   const serverUrl = import.meta.env.VITE_SERVER_URL;
   const collaboraterListApi = import.meta.env.VITE_COLLABORATERS_LIST_API;  
   

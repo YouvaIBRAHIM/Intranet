@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import styles from "../styles/LoginPage.module.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { setUserInfo, setToken } from "../reducers/UserReducer";
+import { setUserInfo } from "../reducers/UserReducer";
 import { onLogin } from "../services/Api.service";
 import { setToSessionStorage } from "../services/SessionStorage.service";
 
 
-const LoginPage = () => {
+const LoginPage = ({ setIsConnected }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -32,6 +32,7 @@ const LoginPage = () => {
                     const token = res.data.token;
                     dispatch(setUserInfo({ user : user }));
                     setToSessionStorage('token', JSON.stringify(token));
+                    setIsConnected(true);
                     navigate("/home");
                 }else{
                     setErrorMessage(res.data.error)
