@@ -6,6 +6,7 @@
 .collaboraterContainer{
     justify-content: space-between;
     flex-direction: column;
+    min-width: 350px;
     width: 90%;
     margin: 25px auto;
     height: auto;

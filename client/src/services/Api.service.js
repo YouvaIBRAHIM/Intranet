@@ -58,3 +58,39 @@ export async function getRandomCollaborater(token) {
     return error.response;
   }
 }
+
+
+ export async function updateUser(token, data, id) {
+  const serverUrl = import.meta.env.VITE_SERVER_URL;
+  const updateUserApi = import.meta.env.VITE_UPDATE_USER_API;  
+  
+  try {
+    const response = await axios.put(`${serverUrl}${updateUserApi}/${id}`, data,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+}
+
+
+export async function addeUser(token, data, id) {
+  const serverUrl = import.meta.env.VITE_SERVER_URL;
+  const updateUserApi = import.meta.env.VITE_UPDATE_USER_API;  
+  
+  try {
+    const response = await axios.post(`${serverUrl}${updateUserApi}`, data,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+}

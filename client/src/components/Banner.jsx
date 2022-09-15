@@ -35,6 +35,14 @@ function Banner({ setIsConnected }) {
               <span className={styles.materialIconsOutlined}> Liste </span>
             </Link>
           </li>
+          {
+            user?.isAdmin &&
+            <li>
+              <Link to="/collaboraters/new">
+                <span className={styles.materialIconsOutlined}> Ajouter </span>
+              </Link>
+            </li>
+          }
           <li>
             <img src={user?.photo} alt="photo de profile" className={styles.profile} />
             <ul>

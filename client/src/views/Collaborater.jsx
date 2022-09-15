@@ -1,7 +1,7 @@
 import styles from "../styles/Collaborater.module.css";
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { getCollaboratersListFromApi } from "../services/Api.service";
+import { getCollaboratersListFromApi, updateUser } from "../services/Api.service";
 import { addAllCollaboraters } from "../reducers/CollaboratersReducer";
 import { getCollaboraters } from "../services/Collaboraters.service";
 import { useEffect, useState } from "react";
@@ -27,7 +27,7 @@ const Collaborater = () => {
                 collaborater &&
                 <>
                     <h2>Modifier les informations de {collaborater.firstname} {collaborater.lastname}</h2>
-                    <UserForm />
+                    <UserForm user={collaborater} actionOnSubmit={updateUser}/>
                 </>
             }
             {
