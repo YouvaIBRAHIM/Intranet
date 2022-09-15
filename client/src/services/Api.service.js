@@ -62,10 +62,10 @@ export async function getRandomCollaborater(token) {
 
  export async function updateUser(token, data, id) {
   const serverUrl = import.meta.env.VITE_SERVER_URL;
-  const updateUserApi = import.meta.env.VITE_UPDATE_USER_API;  
+  const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
   
   try {
-    const response = await axios.put(`${serverUrl}${updateUserApi}/${id}`, data,
+    const response = await axios.put(`${serverUrl}${handleUserApi}/${id}`, data,
     {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -78,12 +78,12 @@ export async function getRandomCollaborater(token) {
 }
 
 
-export async function addeUser(token, data, id) {
+export async function addeUser(token, data) {
   const serverUrl = import.meta.env.VITE_SERVER_URL;
-  const updateUserApi = import.meta.env.VITE_UPDATE_USER_API;  
+  const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
   
   try {
-    const response = await axios.post(`${serverUrl}${updateUserApi}`, data,
+    const response = await axios.post(`${serverUrl}${handleUserApi}`, data,
     {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -91,6 +91,7 @@ export async function addeUser(token, data, id) {
     })
     return response;
   } catch (error) {
+    console.log(error);
     return error.message;
   }
 }

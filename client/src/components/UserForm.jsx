@@ -4,13 +4,38 @@ import styles from "../styles/UserForm.module.css";
 
 
 const UserForm = ({user, actionOnSubmit}) => {
-    const [userInfos, setUserInfos] = useState({...user})
+    const userInfosStructure = {
+                                    "gender": "",
+                                    "firstname": "",
+                                    "lastname": "",
+                                    "password": "",
+                                    "email": "",
+                                    "phone": "",
+                                    "birthdate": "",
+                                    "city": "",
+                                    "country": "",
+                                    "photo": "",
+                                    "service": ""
+                                }
+    const [userInfos, setUserInfos] = useState(user ? {...user} : {...userInfosStructure})
     const [apiResponseMessage, setApiResponseMessage] = useState("")
     const [detetedError, setDetectedError] = useState(false)
 
+    const setEmptyFields = () => {
+        if (userInfos.photo.trim() == "") {
+            setUserInfos({...userInfos, photo: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"})
+        }
+        if (userInfos.gender.trim() == "") {
+            setUserInfos({...userInfos, gender: "male"})
+        }
+        if (userInfos.service.trim() == "") {
+            setUserInfos({...userInfos, service: "Client"})
+        }
+    }
     const onSaveBtn = () => {
         const token = getFromSessionStorage("token");
-        const result = actionOnSubmit(token, userInfos, user.id)
+        setEmptyFields();
+        const result = actionOnSubmit(token, userInfos, user?.id)
         result.then(res => {
             if (res.status == 201) {
                 setDetectedError(false)
