@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { setUserInfo, setToken } from "../reducers/UserReducer";
 import { onLogin } from "../services/Api.service";
+import { setToSessionStorage } from "../services/SessionStorage.service";
+
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -29,7 +31,7 @@ const LoginPage = () => {
                     const user = res.data.user;
                     const token = res.data.token;
                     dispatch(setUserInfo({ user : user }));
-                    dispatch(setToken({ token : token }));
+                    setToSessionStorage('token', JSON.stringify(token));
                     navigate("/home");
                 }else{
                     setErrorMessage(res.data.error)
