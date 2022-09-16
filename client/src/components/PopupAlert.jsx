@@ -7,7 +7,7 @@ const PopupAlert = ({onConfirm, message, typeValidate, setDisplayPopupAlert}) =>
         <>
             <div className={styles.modal}>
               <div className={styles.customBox}>
-                <p>{message}</p>
+                <h3>{message}</h3>
                 {
                     typeValidate &&
                     <>

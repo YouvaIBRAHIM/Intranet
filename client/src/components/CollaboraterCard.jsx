@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import { deleteUser } from "../services/Api.service";
 import { getFromSessionStorage } from "../services/SessionStorage.service";
 import PopupAlert from "./PopupAlert";
-import { showPopUpAlert } from "../reducers/PopUpAlertReducer";
 
 const CollaboraterCard = ({user}) => {
     const [displayPopupAlert, setDisplayPopupAlert]= useState(false)
@@ -17,21 +16,40 @@ const CollaboraterCard = ({user}) => {
     const age = moment().diff(user.birthdate, 'years');
     const numberPhone = user.phone.replaceAll("-", " ");
     const birthdate = moment(user.birthdate).locale('fr').format('Do MMMM YYYY');
-    const dispatch = useDispatch();
     const token = getFromSessionStorage("token");
-    const payload = {
-        display: true,
-        message: `Voulez-vous vraiment supprimer ${user.firstname} ${user.lastname} des collaborateurs`,
-        typeValidate: true,
-    }
+    const [payload, setPayload]= useState({})
+
     const onDeleteBtn = () => {
+        setPayload({
+            message: `Voulez-vous vraiment supprimer ${user.firstname} ${user.lastname} des collaborateurs`,
+            typeValidate: true,
+        })
         setDisplayPopupAlert(true)
+    }
+
+    const deleteCollaborater = (token, id) => {
+        setDisplayPopupAlert(false)
+        const result = deleteUser(token, id)
+        result.then(res => {
+            setPayload({
+                message: res.data.success,
+                typeValidate: false,
+            })
+            setDisplayPopupAlert(true)
+        })
+        .catch(err => {
+            setPayload({
+                message: err.message,
+                typeValidate: false,
+            })
+            setDisplayPopupAlert(true)
+        })
     }
     return (
         <div className={styles.collaboraterCardContainer}>
             {
                 displayPopupAlert &&
-                <PopupAlert typeValidate={true} message={payload.message} onConfirm={()=> {deleteUser(token, user.id)}} setDisplayPopupAlert={setDisplayPopupAlert}/>
+                <PopupAlert typeValidate={payload.typeValidate} message={payload.message} onConfirm={()=> {deleteCollaborater(token, user.id)}} setDisplayPopupAlert={setDisplayPopupAlert}/>
             }
             <img src={user.photo} className={`${styles.collaboraterCardImg}`} alt={`${user.firstname} ${user.lastname}`}/>
             
