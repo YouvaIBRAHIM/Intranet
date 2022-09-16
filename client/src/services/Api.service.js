@@ -112,6 +112,6 @@ export async function deleteUser(token, id) {
 
     return response;
   } catch (error) {
-    return error.message;
+    return error.response.data.error;
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { disconnect } from "../services/Disconnect.service";
 import styles from "../styles/Banner.module.css";
 import logoImage from "../assets/logo.png";
@@ -29,14 +29,14 @@ function Banner({ setIsConnected }) {
       <nav>
         <ul>
           <li>
-            <Link to="/home">
+            <NavLink className={({ isActive }) => isActive ? styles.isActive : ""} to='/home'>
               <span className={styles.materialIconsOutlined}> Accueil </span>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link onClick={() => dispatch(displayTenFirstCollaboraters())} to="/collaboraters">
+            <NavLink onClick={() => dispatch(displayTenFirstCollaboraters())} className={({ isActive }) => isActive ? styles.isActive : ""} to="/collaboraters">
               <span className={styles.materialIconsOutlined}> Liste </span>
-            </Link>
+            </NavLink>
           </li>
           <li>
             <img src={user?.photo} alt="photo de profile" className={styles.profile} />

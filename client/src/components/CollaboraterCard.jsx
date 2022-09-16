@@ -24,6 +24,7 @@ const CollaboraterCard = ({user}) => {
 
     const onDeleteBtn = () => {
         setPayload({
+            type: "Attention",
             message: `Voulez-vous vraiment supprimer ${user.firstname} ${user.lastname} des collaborateurs ?`,
             typeValidate: true,
         })
@@ -36,12 +37,21 @@ const CollaboraterCard = ({user}) => {
         result.then(res => {
             if (res.status === 200) {
                 dispatch(deleteCollaboraterInGlobalState({userId: id}))
+            }else{
+                setPayload({
+                    message: res,
+                    typeValidate: false,
+                    type: "Erreur"
+
+                })
+                setDisplayPopupAlert(true)
             }
         })
         .catch(err => {
             setPayload({
                 message: err.message,
                 typeValidate: false,
+                type: "Erreur"
             })
             setDisplayPopupAlert(true)
         })
@@ -50,7 +60,7 @@ const CollaboraterCard = ({user}) => {
         <div className={styles.collaboraterCardContainer}>
             {
                 displayPopupAlert &&
-                <PopupAlert typeValidate={payload.typeValidate} message={payload.message} onConfirm={()=> {deleteCollaborater(token, user.id)}} setDisplayPopupAlert={setDisplayPopupAlert}/>
+                <PopupAlert type={payload.type} typeValidate={payload.typeValidate} message={payload.message} onConfirm={()=> {deleteCollaborater(token, user.id)}} setDisplayPopupAlert={setDisplayPopupAlert}/>
             }
             <img src={user.photo} className={`${styles.collaboraterCardImg}`} alt={`${user.firstname} ${user.lastname}`}/>
             

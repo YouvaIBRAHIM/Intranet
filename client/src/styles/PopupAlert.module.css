@@ -21,14 +21,32 @@
     flex-direction: column;
     background-color: white;
     min-width: 300px;
-    width: 80%;
-    padding: 50px;
+    width: 70%;
+    padding: 20px;
+}
+
+.modal .customBox h2{
+    font-size: 22px;
+    text-align: center;
+}
+.modal .customBox .error{
+    color: rgb(218, 23, 23);
+}
+
+.modal .customBox .success{
+    color: rgb(69, 218, 23);
+}
+
+.modal .customBox .warning{
+    color: rgb(218, 179, 23);
 }
 
 .modal .customBox h3{
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
 }
+
+
 
 .modal button{
     margin: auto 10px;
@@ -51,6 +69,15 @@
 @media (min-width: 550px) {
     .modal .customBox{
         width: 45%;
+        padding: 30px;
+    }
+    
+    .modal .customBox h2{
+        font-size: 26px;
+    }
+
+    .modal .customBox h3{
+        font-size: 24px;
     }
     
 }

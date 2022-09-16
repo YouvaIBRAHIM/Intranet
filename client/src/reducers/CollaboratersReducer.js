@@ -50,8 +50,9 @@ export const CollaboratersSlice = createSlice({
           return collaborater;
         });
       }else{
-        state.collaboraters = [...state.collaboraters, newUserInfos];
-        state.collaboratersToDisplay = [...state.collaboratersToDisplay, newUserInfos];
+
+        state.collaboraters = [...state.collaboraters, {...newUserInfos, id: action.payload.userId}];
+        state.collaboratersToDisplay = [...state.collaboratersToDisplay, {...newUserInfos, id: action.payload.userId}];
       }
     },
   },

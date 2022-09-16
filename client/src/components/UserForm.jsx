@@ -1,42 +1,61 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { updateCollaboratersListInGlobalState } from "../reducers/CollaboratersReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { addAllCollaboraters, updateCollaboratersListInGlobalState } from "../reducers/CollaboratersReducer";
+import { getCollaboratersListFromApi } from "../services/Api.service";
+import { getCollaboraters } from "../services/Collaboraters.service";
 import { getFromSessionStorage } from "../services/SessionStorage.service";
 import styles from "../styles/UserForm.module.css";
-
+import PopupAlert from "./PopupAlert"
 
 const UserForm = ({user, actionOnSubmit}) => {
+    const dispatch = useDispatch();
+    const { collaboraters } = useSelector(state => state.collaboraters);
+    getCollaboraters(collaboraters, getCollaboratersListFromApi, addAllCollaboraters, dispatch)
+
     const userInfosStructure = {
                                     "gender": "male",
                                     "firstname": "",
                                     "lastname": "",
                                     "password": "",
                                     "email": "",
-                                    "phone": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                                    "phone": "",
                                     "birthdate": "",
                                     "city": "",
                                     "country": "",
-                                    "photo": "",
+                                    "photo": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
                                     "service": "Client"
                                 }
 
-    const [userInfos, setUserInfos] = useState(user ? {...user, password: ""} : {...userInfosStructure})
+    const [userInfos, setUserInfos] = useState(user ? {...user, password: ""} : userInfosStructure)
     const [apiResponseMessage, setApiResponseMessage] = useState("")
     const [detetedError, setDetectedError] = useState(false)
-    const dispatch = useDispatch();
+    const [displayPopupAlert, setDisplayPopupAlert]= useState(false)
+    const [payload, setPayload]= useState({})
+
 
     const onSaveBtn = () => {
         const token = getFromSessionStorage("token");
 
+        const isEmailAlreadExist = emailVerification(userInfos.email, user)
+        if (isEmailAlreadExist != false && isEmailAlreadExist >= 0) {
+            setPayload({
+                type: "Attention",
+                message: `L'email saisi appartient déjà à un autre utilisateur`,
+                typeValidate: false,
+            })
+            setDisplayPopupAlert(true)
+            return
+        }
         // Si aucune photo n'est fournie, on met par défaut l'image ci-dessous
         const defaultProfileImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
-        const result = actionOnSubmit(token, {...userInfos, photo : userInfos.photo === "" ? defaultProfileImage : userInfos.photo}, user?.id)
+        const result = actionOnSubmit(token, {...userInfos, photo : userInfos.photo.trim() === "" ? defaultProfileImage : userInfos.photo}, user?.id)
         result.then(res => {
             if (res.status == 201) {
                 setDetectedError(false)
                 setApiResponseMessage(res.data.success)
-                dispatch(updateCollaboratersListInGlobalState({user : userInfos}))
+
+                dispatch(updateCollaboratersListInGlobalState({user : userInfos, userId : res.data.collaborateur.id}))
             }else{
                 setDetectedError(true)
                 setApiResponseMessage(res)
@@ -47,8 +66,21 @@ const UserForm = ({user, actionOnSubmit}) => {
             setApiResponseMessage(err.message)
         })
     }
+
+    const emailVerification = (email, user) => {
+        if (user) {
+            if (user.email == email) {
+                return false;
+            }
+        }
+        return collaboraters.findIndex(collaborater => collaborater.email == email);
+    }
     return (
         <div className={styles.container}>
+            {
+                displayPopupAlert &&
+                <PopupAlert type={payload.type} typeValidate={payload.typeValidate} message={payload.message} setDisplayPopupAlert={setDisplayPopupAlert}/>
+            }
             <div className={styles.formContainer}>
                 <div className={styles.wrapper}>
                     <div className={styles.gender}>
