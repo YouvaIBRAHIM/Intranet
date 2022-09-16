@@ -4,6 +4,7 @@ import LoginPage from './views/LoginPage';
 import CollaboratersList from './views/CollaboratersList';
 import Collaborater from './views/Collaborater';
 import NewCollaborater from './views/NewCollaborater';
+import Profile from './views/Profile';
 import Banner from './components/Banner';
 import { initServiceWorker } from "./services/ServiceWorker.service";
 import PrivateRoute from "./features/PrivateRoute";
@@ -48,6 +49,13 @@ function App() {
                                           </PrivateRoute>
                                         }
             />
+            <Route path="/profile" element={
+                                          <PrivateRoute  setIsConnected={setIsConnected}>
+                                            <Profile />
+                                          </PrivateRoute>
+                                        }
+            />
+
             <Route path="/collaboraters/:id" element={
                                                       <PrivateRoute  setIsConnected={setIsConnected}>
                                                         <IsAdminRoute>

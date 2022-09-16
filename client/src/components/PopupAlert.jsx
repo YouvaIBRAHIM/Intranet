@@ -1,16 +1,28 @@
+import styles from "../styles/PopupAlert.module.css";
 
-/**
- * Pop up d'alerte pour confirmer la suppression d'un pokemon du pokedex
- * @param {String} pokemonName nom du pokemon
- * @param {Function} onRemoveFromPokedex fonction qui supprime le pokemon du pokedex
- * @param {Function} setShowPopup fonction qui fait disparaitre la pop up
- * @returns 
- */
-const PopupAlert = () => {
+
+const PopupAlert = ({onConfirm, message, typeValidate, setDisplayPopupAlert}) => {
+    
     return (
         <>
-
-
+            <div className={styles.modal}>
+              <div className={styles.customBox}>
+                <p>{message}</p>
+                {
+                    typeValidate &&
+                    <>
+                        <button onClick={onConfirm}>Confirmer</button>
+                        <button onClick={() => setDisplayPopupAlert(false)}>Annuler</button>
+                    </>
+                }
+                {
+                    !typeValidate &&
+                    <>
+                        <button onClick={() => setDisplayPopupAlert(false)}>OK</button>
+                    </>
+                }
+              </div>
+          </div>
         </>
     );
 };

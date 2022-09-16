@@ -5,37 +5,29 @@ import styles from "../styles/UserForm.module.css";
 
 const UserForm = ({user, actionOnSubmit}) => {
     const userInfosStructure = {
-                                    "gender": "",
+                                    "gender": "male",
                                     "firstname": "",
                                     "lastname": "",
                                     "password": "",
                                     "email": "",
-                                    "phone": "",
+                                    "phone": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
                                     "birthdate": "",
                                     "city": "",
                                     "country": "",
                                     "photo": "",
-                                    "service": ""
+                                    "service": "Client"
                                 }
-    const [userInfos, setUserInfos] = useState(user ? {...user} : {...userInfosStructure})
+
+    const [userInfos, setUserInfos] = useState(user ? {...user, password: ""} : {...userInfosStructure})
     const [apiResponseMessage, setApiResponseMessage] = useState("")
     const [detetedError, setDetectedError] = useState(false)
 
-    const setEmptyFields = () => {
-        if (userInfos.photo.trim() == "") {
-            setUserInfos({...userInfos, photo: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"})
-        }
-        if (userInfos.gender.trim() == "") {
-            setUserInfos({...userInfos, gender: "male"})
-        }
-        if (userInfos.service.trim() == "") {
-            setUserInfos({...userInfos, service: "Client"})
-        }
-    }
+
     const onSaveBtn = () => {
         const token = getFromSessionStorage("token");
-        setEmptyFields();
-        const result = actionOnSubmit(token, userInfos, user?.id)
+        const defaultProfileImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+
+        const result = actionOnSubmit(token, {...userInfos, photo : userInfos.photo === "" ? defaultProfileImage : userInfos.photo}, user?.id)
         result.then(res => {
             if (res.status == 201) {
                 setDetectedError(false)

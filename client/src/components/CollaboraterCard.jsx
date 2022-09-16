@@ -1,19 +1,38 @@
-import {useSelector} from "react-redux";
+import { useState } from "react";
+import {useDispatch, useSelector} from "react-redux";
 import styles from "../styles/CollaboraterCard.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationPin, faEnvelope, faPhone, faBirthdayCake } from '@fortawesome/free-solid-svg-icons';
 import moment from "moment";
 import 'moment/dist/locale/fr';
 import { Link } from "react-router-dom";
+import { deleteUser } from "../services/Api.service";
+import { getFromSessionStorage } from "../services/SessionStorage.service";
+import PopupAlert from "./PopupAlert";
+import { showPopUpAlert } from "../reducers/PopUpAlertReducer";
 
 const CollaboraterCard = ({user}) => {
+    const [displayPopupAlert, setDisplayPopupAlert]= useState(false)
     const userState = useSelector(state => state.user);
     const age = moment().diff(user.birthdate, 'years');
     const numberPhone = user.phone.replaceAll("-", " ");
     const birthdate = moment(user.birthdate).locale('fr').format('Do MMMM YYYY');
-
+    const dispatch = useDispatch();
+    const token = getFromSessionStorage("token");
+    const payload = {
+        display: true,
+        message: `Voulez-vous vraiment supprimer ${user.firstname} ${user.lastname} des collaborateurs`,
+        typeValidate: true,
+    }
+    const onDeleteBtn = () => {
+        setDisplayPopupAlert(true)
+    }
     return (
         <div className={styles.collaboraterCardContainer}>
+            {
+                displayPopupAlert &&
+                <PopupAlert typeValidate={true} message={payload.message} onConfirm={()=> {deleteUser(token, user.id)}} setDisplayPopupAlert={setDisplayPopupAlert}/>
+            }
             <img src={user.photo} className={`${styles.collaboraterCardImg}`} alt={`${user.firstname} ${user.lastname}`}/>
             
             <div className={styles.cardBody}>
@@ -41,7 +60,7 @@ const CollaboraterCard = ({user}) => {
                     userState?.user.isAdmin &&
                     <div className={styles.actionButtons}>
                         <Link to={`/collaboraters/${user.id}`} className={styles.edit}>Éditer</Link>
-                        <button className={styles.delete}>Supprimer</button>
+                        <button onClick={onDeleteBtn} className={styles.delete}>Supprimer</button>
                     </div>
                 }
             </div>

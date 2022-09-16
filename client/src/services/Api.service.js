@@ -60,24 +60,6 @@ export async function getRandomCollaborater(token) {
 }
 
 
- export async function updateUser(token, data, id) {
-  const serverUrl = import.meta.env.VITE_SERVER_URL;
-  const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
-  
-  try {
-    const response = await axios.put(`${serverUrl}${handleUserApi}/${id}`, data,
-    {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    return response;
-  } catch (error) {
-    return error.message;
-  }
-}
-
-
 export async function addeUser(token, data) {
   const serverUrl = import.meta.env.VITE_SERVER_URL;
   const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
@@ -92,6 +74,44 @@ export async function addeUser(token, data) {
     return response;
   } catch (error) {
     console.log(error);
+    return error.message;
+  }
+}
+
+
+export async function updateUser(token, data, id) {
+  const serverUrl = import.meta.env.VITE_SERVER_URL;
+  const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
+  
+  try {
+    const response = await axios.put(`${serverUrl}${handleUserApi}/${id}`, data,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+}
+
+
+export async function deleteUser(token, id) {
+  const serverUrl = import.meta.env.VITE_SERVER_URL;
+  const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
+  
+  try {
+    const response = await axios.delete(`${serverUrl}${handleUserApi}/${id}`,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    return response;
+  } catch (error) {
     return error.message;
   }
 }

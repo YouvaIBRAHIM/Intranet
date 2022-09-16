@@ -35,21 +35,22 @@ function Banner({ setIsConnected }) {
               <span className={styles.materialIconsOutlined}> Liste </span>
             </Link>
           </li>
-          {
-            user?.isAdmin &&
-            <li>
-              <Link to="/collaboraters/new">
-                <span className={styles.materialIconsOutlined}> Ajouter </span>
-              </Link>
-            </li>
-          }
           <li>
             <img src={user?.photo} alt="photo de profile" className={styles.profile} />
             <ul>
               <li className={styles.subItem}>
-                <Link to="/list">
+                <Link to="/profile">
                   <span className={styles.materialIconsOutlined}> Mon compte </span>
-                </Link>              </li>
+                </Link>              
+              </li>
+              {
+                user?.isAdmin &&
+                <li className={styles.subItem}>
+                  <Link to="/collaboraters/new">
+                    <span className={styles.materialIconsOutlined}> Ajouter un collaborateur </span>
+                  </Link>              
+                </li>
+              }
               <li className={styles.subItem}>
                 <span onClick={onDisconnect} className={`${styles.materialIconsOutlined} ${styles.disconnectBtn}`}> Déconnexion </span>
               </li>
