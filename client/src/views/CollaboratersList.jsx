@@ -2,11 +2,12 @@ import { useEffect, useRef } from "react";
 import {useSelector, useDispatch} from "react-redux";
 import { getCollaboratersListFromApi } from "../services/Api.service";
 import { getCollaboraters } from "../services/Collaboraters.service";
-import { addAllCollaboraters, setCollaboratersToDisplay } from "../reducers/CollaboratersReducer";
+import { addAllCollaboraters, displayTenFirstCollaboraters, setCollaboratersToDisplay } from "../reducers/CollaboratersReducer";
 import CollaboraterCard from "../components/CollaboraterCard";
 import Search from "../components/Search";
 
 import styles from "../styles/Main.module.css";
+import { useLocation } from "react-router-dom";
 
 const CollaboratersList = () => {
     const dispatch = useDispatch()
@@ -15,7 +16,6 @@ const CollaboratersList = () => {
 
     useEffect(()=>{
         getCollaboraters(collaboraters, getCollaboratersListFromApi, addAllCollaboraters, dispatch)
-        
         window.addEventListener('scroll', onScroll);
 
         return () => {

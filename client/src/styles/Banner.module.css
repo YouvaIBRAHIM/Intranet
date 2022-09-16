@@ -134,3 +134,8 @@ header .disconnectBtn{
 header .disconnectBtn:hover{
     color: #eb1b1b!important;
 }
+
+.isActive .materialIconsOutlined{
+    color: #403866;
+    font-size: 22px;
+}

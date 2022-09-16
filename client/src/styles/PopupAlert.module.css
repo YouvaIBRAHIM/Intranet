@@ -1,6 +1,7 @@
 
 .modal,
-.modal .customBox {
+.modal .customBox,
+.modal .buttonsContainer {
     display: flex;
     align-items: center;
     justify-content: center;

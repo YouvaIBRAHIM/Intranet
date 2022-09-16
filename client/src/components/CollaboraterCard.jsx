@@ -9,19 +9,22 @@ import { Link } from "react-router-dom";
 import { deleteUser } from "../services/Api.service";
 import { getFromSessionStorage } from "../services/SessionStorage.service";
 import PopupAlert from "./PopupAlert";
+import { deleteCollaboraterInGlobalState } from "../reducers/CollaboratersReducer";
 
 const CollaboraterCard = ({user}) => {
     const [displayPopupAlert, setDisplayPopupAlert]= useState(false)
+    const [payload, setPayload]= useState({})
     const userState = useSelector(state => state.user);
+    const dispatch = useDispatch()
+
     const age = moment().diff(user.birthdate, 'years');
     const numberPhone = user.phone.replaceAll("-", " ");
     const birthdate = moment(user.birthdate).locale('fr').format('Do MMMM YYYY');
     const token = getFromSessionStorage("token");
-    const [payload, setPayload]= useState({})
 
     const onDeleteBtn = () => {
         setPayload({
-            message: `Voulez-vous vraiment supprimer ${user.firstname} ${user.lastname} des collaborateurs`,
+            message: `Voulez-vous vraiment supprimer ${user.firstname} ${user.lastname} des collaborateurs ?`,
             typeValidate: true,
         })
         setDisplayPopupAlert(true)
@@ -31,11 +34,9 @@ const CollaboraterCard = ({user}) => {
         setDisplayPopupAlert(false)
         const result = deleteUser(token, id)
         result.then(res => {
-            setPayload({
-                message: res.data.success,
-                typeValidate: false,
-            })
-            setDisplayPopupAlert(true)
+            if (res.status === 200) {
+                dispatch(deleteCollaboraterInGlobalState({userId: id}))
+            }
         })
         .catch(err => {
             setPayload({

@@ -5,11 +5,14 @@ import styles from "../styles/Banner.module.css";
 import logoImage from "../assets/logo.png";
 import { getFromSessionStorage } from "../services/SessionStorage.service";
 import { parseJwt } from "../services/Utils.service";
+import { useDispatch } from 'react-redux';
+import { displayTenFirstCollaboraters } from '../reducers/CollaboratersReducer';
 
 /**
  * @returns la barre de navigation du site
  */
 function Banner({ setIsConnected }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = getFromSessionStorage("token");
   const user = parseJwt(token);
@@ -31,7 +34,7 @@ function Banner({ setIsConnected }) {
             </Link>
           </li>
           <li>
-            <Link to="/collaboraters">
+            <Link onClick={() => dispatch(displayTenFirstCollaboraters())} to="/collaboraters">
               <span className={styles.materialIconsOutlined}> Liste </span>
             </Link>
           </li>

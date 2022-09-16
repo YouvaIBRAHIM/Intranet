@@ -5,15 +5,15 @@ const PopupAlert = ({onConfirm, message, typeValidate, setDisplayPopupAlert}) =>
     
     return (
         <>
-            <div className={styles.modal}>
+            <div  className={styles.modal}>
               <div className={styles.customBox}>
                 <h3>{message}</h3>
                 {
                     typeValidate &&
-                    <>
+                    <div className={styles.buttonsContainer}>
                         <button onClick={onConfirm}>Confirmer</button>
                         <button onClick={() => setDisplayPopupAlert(false)}>Annuler</button>
-                    </>
+                    </div>
                 }
                 {
                     !typeValidate &&
