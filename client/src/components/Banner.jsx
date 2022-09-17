@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { disconnect } from "../services/Disconnect.service";
 import styles from "../styles/Banner.module.css";
 import logoImage from "../assets/logo.png";
 import { getFromSessionStorage } from "../services/SessionStorage.service";
-import { parseJwt } from "../services/Utils.service";
 import { useDispatch } from 'react-redux';
 import { displayTenFirstCollaboraters } from '../reducers/CollaboratersReducer';
+import { useSelector } from 'react-redux';
 
 /**
  * @returns la barre de navigation du site
@@ -14,8 +14,7 @@ import { displayTenFirstCollaboraters } from '../reducers/CollaboratersReducer';
 function Banner({ setIsConnected }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = getFromSessionStorage("token");
-  const user = parseJwt(token);
+  const { user } = useSelector(state => state.user)
 
   const onDisconnect = () => {
     setIsConnected(false)

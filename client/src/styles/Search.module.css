@@ -19,6 +19,8 @@
 .searchContainer .inputContainer{
     width: 90%;
     margin: 10px 0;
+    flex-direction: column;
+
 }
 
 .searchContainer .inputContainer input{
@@ -32,6 +34,12 @@
     font-size: 18px;
     padding: 0 10px;
 
+}
+
+.searchContainer .inputContainer span{
+    color: rgb(206, 48, 48);
+    position: absolute;
+    margin-top: 60px;
 }
 
 .searchContainer .inputContainer input,

@@ -1,17 +1,15 @@
 import styles from "../styles/Collaborater.module.css";
 import { updateUser } from "../services/Api.service";
 import UserForm from "../components/UserForm";
-import { getFromSessionStorage } from "../services/SessionStorage.service";
-import { parseJwt } from "../services/Utils.service";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-    const token = getFromSessionStorage("token");
-    const user = parseJwt(token);
-    delete user?.iat;
+    const { user } = useSelector(state => state.user)
+
     return (
         <div className={styles.collaboraterContainer}>
             <h2>Modifier mon profile</h2>
-            <UserForm user={user} actionOnSubmit={updateUser}/>
+            <UserForm isConnectedUserProfile={true} user={user} actionOnSubmit={updateUser}/>
         </div>
     );
 };

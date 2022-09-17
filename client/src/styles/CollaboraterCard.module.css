@@ -13,13 +13,16 @@
     justify-content: space-between;
     flex-direction: column;
     width: 90%;
+    height: 500px;
     margin: 25px auto;
-    height: auto;
     -webkit-box-shadow: 2px 2px 12px -5px #00000050; 
     box-shadow: 2px 2px 12px -5px #00000050;
 }
 .collaboraterCardContainer .collaboraterCardImg{
     width: 100%;
+    height: 50%;
+    background-size: cover;
+    background-position: center;
     -webkit-box-shadow: 2px 2px 12px -5px #00000050; 
     box-shadow: 2px 2px 12px -5px #00000050;
 }
@@ -85,6 +88,10 @@
     align-items: center;
 }
 
+.collaboraterCardContainer .birthdate span,
+.collaboraterCardContainer .birthdate b{
+    font-size: 10px;
+}
 .collaboraterCardContainer .icon{
     font-size: 18px;
     margin: 0 10px 0 0;
@@ -151,7 +158,7 @@
 
     
     .collaboraterCardContainer .collaboraterCardImg{
-        width: 250px;
+        width: 100%;
         height: 250px;
     }
 

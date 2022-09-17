@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getRandomCollaborater } from "../services/Api.service";
+import { getRandomCollaboraterFromApi } from "../services/Api.service";
 import { getFromSessionStorage } from '../services/SessionStorage.service';
 import { disconnect } from "../services/Disconnect.service";
 
@@ -11,7 +11,7 @@ export default function PrivateRoute({ children, setIsConnected }) {
     const token = getFromSessionStorage('token');
 
     useEffect(()=>{
-        const response = getRandomCollaborater(token);
+        const response = getRandomCollaboraterFromApi(token);
         response.then((res) => {
             if (res.status == 200) {
                 setIsConnected(true);

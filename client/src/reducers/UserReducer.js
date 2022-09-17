@@ -1,11 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getFromSessionStorage, setToSessionStorage } from "../services/SessionStorage.service";
-import { parseJwt } from "../services/Utils.service";
 
 let initialState;
-const token = getFromSessionStorage('token');
-if (token) {
-  const user = parseJwt(token);
+const user = getFromSessionStorage('user');
+if (user) {
   initialState = {
     user: user,
   }

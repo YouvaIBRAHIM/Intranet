@@ -27,7 +27,7 @@ const Collaborater = () => {
                 collaborater &&
                 <>
                     <h2>Modifier les informations de {collaborater.firstname} {collaborater.lastname}</h2>
-                    <UserForm user={collaborater} actionOnSubmit={updateUser}/>
+                    <UserForm isConnectedUserProfile={false} user={collaborater} actionOnSubmit={updateUser}/>
                 </>
             }
             {

@@ -1,25 +1,30 @@
 import { useState, useEffect } from "react";
-import { getRandomCollaborater } from "../services/Api.service";
-import { getFromSessionStorage } from '../services/SessionStorage.service';
+import { getRandomCollaboraterFromApi } from "../services/Api.service";
 import CollaboraterCard from "../components/CollaboraterCard";
+import { useSelector } from "react-redux";
+import { getRandomCollaborater } from "../services/Collaboraters.service";
+import styles from "../styles/Home.module.css";
 
 const Home = () => {
-    const [user, setUser] = useState(null);
-    const token = getFromSessionStorage('token');
+    const [randomCollaborater, setRandomCollaborater] = useState(null);
+    const { user } = useSelector(state => state.user)
+
     useEffect(()=>{
-        const response = getRandomCollaborater(token);
-        response.then((res) => {
-            if (res.status == 200) {
-                setUser(res.data)
-            }
-        })
+        getRandomCollaborater(getRandomCollaboraterFromApi, setRandomCollaborater)
 
     }, [])
     return (
         <div>
+            
             {
-                user &&
-                <CollaboraterCard user={user}/>
+                randomCollaborater &&
+                <div className={styles.homeContainer}>
+                    <h1>Bienvenue {user.firstname}</h1>
+                    <CollaboraterCard user={randomCollaborater}/>
+                    <button onClick={() => getRandomCollaborater(getRandomCollaboraterFromApi, setRandomCollaborater)} className={styles.randomCollaboraterButton}>
+                        Dire bonjour à quelqu'un d'autre
+                    </button>
+                </div>
             }
         </div>
     );

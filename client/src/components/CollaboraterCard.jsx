@@ -62,8 +62,10 @@ const CollaboraterCard = ({user}) => {
                 displayPopupAlert &&
                 <PopupAlert type={payload.type} typeValidate={payload.typeValidate} message={payload.message} onConfirm={()=> {deleteCollaborater(token, user.id)}} setDisplayPopupAlert={setDisplayPopupAlert}/>
             }
-            <img src={user.photo} className={`${styles.collaboraterCardImg}`} alt={`${user.firstname} ${user.lastname}`}/>
-            
+            {/* <img src={user.photo} className={`${styles.collaboraterCardImg}`} alt={`${user.firstname} ${user.lastname}`}/> */}
+            <div style={{backgroundImage: `url(${user.photo})`}} className={`${styles.collaboraterCardImg}`}>
+
+            </div>
             <div className={styles.cardBody}>
                 <div className={styles.topCardBody}>
                     <h5 className={styles.service}>{user.service}</h5>
@@ -83,7 +85,7 @@ const CollaboraterCard = ({user}) => {
                 </div>
 
                 <div className={styles.birthdate}>
-                    <span><FontAwesomeIcon className={styles.icon} icon={faBirthdayCake} />  Date d'anniversaire : <b>{birthdate}</b></span>
+                    <span><FontAwesomeIcon className={styles.icon} icon={faBirthdayCake} />Date de naissance : <b>{birthdate}</b></span>
                 </div>
                 {
                     userState?.user.isAdmin &&

@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { setToSessionStorage, getFromSessionStorage } from '../services/SessionStorage.service';
+
+const collaboratersFromSessionStorage = getFromSessionStorage('collaboraters');
 
 const initialState = {
-    collaboratersToDisplay: null,
-    collaboraters: null,
+    collaboratersToDisplay: collaboratersFromSessionStorage ? collaboratersFromSessionStorage.slice(0, 10) : null,
+    collaboraters: collaboratersFromSessionStorage ? collaboratersFromSessionStorage : null,
 };
 
 export const CollaboratersSlice = createSlice({
@@ -15,6 +18,7 @@ export const CollaboratersSlice = createSlice({
     addAllCollaboraters: (state, action) => {
       state.collaboraters = action.payload.collaboraters;
       state.collaboratersToDisplay = state.collaboraters.slice(0, 10);
+      setToSessionStorage('collaboraters', JSON.stringify(state.collaboraters));
     },
     setCollaboratersToDisplay: (state, action) => {
       const collaboratersToDisplay = action.payload.collaboratersToDisplay;
@@ -50,10 +54,11 @@ export const CollaboratersSlice = createSlice({
           return collaborater;
         });
       }else{
-
         state.collaboraters = [...state.collaboraters, {...newUserInfos, id: action.payload.userId}];
         state.collaboratersToDisplay = [...state.collaboratersToDisplay, {...newUserInfos, id: action.payload.userId}];
       }
+      setToSessionStorage('collaboraters', JSON.stringify(state.collaboraters));
+
     },
   },
 });

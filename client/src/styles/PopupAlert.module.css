@@ -23,6 +23,15 @@
     min-width: 300px;
     width: 70%;
     padding: 20px;
+    animation: modalBox 200ms linear;
+}
+@keyframes modalBox {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .modal .customBox h2{

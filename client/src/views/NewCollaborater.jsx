@@ -7,7 +7,7 @@ const NewCollaborater = () => {
     return (
         <div className={styles.collaboraterContainer}>
             <h2>Ajouter un nouveau collaborateur</h2>
-            <UserForm actionOnSubmit={addeUser}/>
+            <UserForm isConnectedUserProfile={false} actionOnSubmit={addeUser}/>
         </div>
     );
 };

@@ -30,8 +30,10 @@ const LoginPage = ({ setIsConnected }) => {
                 if (res.status == 200) {
                     const user = res.data.user;
                     const token = res.data.token;
-                    dispatch(setUserInfo({ user : user }));
                     setToSessionStorage('token', JSON.stringify(token));
+
+                    dispatch(setUserInfo({ user : user }));
+                    setToSessionStorage('user', JSON.stringify(user));
                     setIsConnected(true);
                     navigate("/home");
                 }else{

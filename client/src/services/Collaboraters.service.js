@@ -12,3 +12,13 @@ export function getCollaboraters(collaboraters, getCollaboratersListFromApi, add
             })
     }
 }
+
+export const getRandomCollaborater = (getRandomCollaboraterFromApi, setRandomCollaborater) => {
+    const token = getFromSessionStorage('token');
+    const response = getRandomCollaboraterFromApi(token);
+    response.then((res) => {
+        if (res.status == 200) {
+            setRandomCollaborater(res.data)
+        }
+    })
+}

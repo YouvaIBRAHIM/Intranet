@@ -8,6 +8,7 @@ const Search = ({enableNextResult}) => {
     const searchValue = useRef('')
     const typeFilter = useRef('name')
     const serviceFilter = useRef('noFilter')
+    const [isFoundResult, setIsFoundResult] = useState(true);
 
     const dispatch = useDispatch();
 
@@ -39,6 +40,7 @@ const Search = ({enableNextResult}) => {
         // si le contenu de la recherche est vide, on affiche les premiers 10 collaborateurs
         if (searchValue.current.trim() == "") {
             enableNextResult.current = true;
+            setIsFoundResult(true);
             return dispatch(displayTenFirstCollaboraters())
         }
         filter();
@@ -59,12 +61,21 @@ const Search = ({enableNextResult}) => {
         });
         enableNextResult.current = false;
         dispatch(filterCollaboratersToDisplay({collaboratersToDisplay: filtredCollaborater}))
+        if (filtredCollaborater.length == 0) {
+            setIsFoundResult(false);
+        }else{
+            setIsFoundResult(true);
+        }
     }
 
     return (
         <div className={styles.searchContainer}>
             <div className={styles.inputContainer}>
                 <input onChange={onSearch} type="search" placeholder="Rechercher"/>
+                {
+                    !isFoundResult &&
+                    <span>Aucun resultat trouvé</span>
+                }
             </div>
             <div className={styles.filterContainer}>
                 <div className={styles.typeFilter}>

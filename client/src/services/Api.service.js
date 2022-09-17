@@ -22,7 +22,7 @@ export async function onLogin(identifiers) {
  * @param {String} token 
  * @returns la réponse de la requete API axios 
  */
-export async function getRandomCollaborater(token) {
+export async function getRandomCollaboraterFromApi(token) {
   const serverUrl = import.meta.env.VITE_SERVER_URL;
   const randomCollaboraterApi = import.meta.env.VITE_RANDOM_COLLABORATER_API;  
   
