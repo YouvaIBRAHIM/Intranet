@@ -1,3 +1,9 @@
+/**
+ * formate le numéro de téléphone
+ * @param {Object} event evenement détecté lors dela saisie du numéro de téléphone
+ * @param {Object} userInfos state des informations du collaborateur 
+ * @param {Function} setUserInfos met à jour le state des informations du collaborateur
+ */
 export const setPhoneNumberFormat = (event, userInfos , setUserInfos) => {
     const insertedChar = event.nativeEvent.data;
     const phoneNumber = event.target.value.replaceAll(" ", "");
@@ -21,6 +27,12 @@ export const setPhoneNumberFormat = (event, userInfos , setUserInfos) => {
     setUserInfos({...userInfos, phone: event.target.value.trim().replaceAll(" ", "-")})
 }
 
+/**
+ * Vérifie si l'email saisi n'appartient pas déjà à un autre collaborateur
+ * @param {String} email email saisi
+ * @param {Object} user informations du collaborateur
+ * @param {Array} collaboraters liste de tous les collaborateurs
+ */
 export const emailVerification = (email, user, collaboraters) => {
 
     if (user) {

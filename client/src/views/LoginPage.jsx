@@ -2,15 +2,21 @@ import React, {useState} from 'react';
 import styles from "../styles/LoginPage.module.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { setUserInfo } from "../reducers/UserReducer";
+import { setUserInfo } from "../features/UserReducer";
 import { onLogin } from "../services/Api.service";
-import { setToSessionStorage } from "../services/SessionStorage.service";
+import { setToSessionStorage } from "../services/Storage.service";
 
-
+/**
+ * @param {Function} setIsConnected permet de mettre à jour le state indiquant si l'utilisateur est connecté ou non
+ * @returns une page de connexion
+ */
 const LoginPage = ({ setIsConnected }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    // message qui s'affiche lors d'une erreur
     const [errorMessage, setErrorMessage] = useState('');
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -19,19 +25,24 @@ const LoginPage = ({ setIsConnected }) => {
         setState(value);
     }
     
+    // s'exécute quand on appuie "Se connecter"
     function onHandleSubmit(){
+        // verifie si les champs ne sont pas vides
         if (email.trim() !== "" && password.trim() !== "" ) {
             const identifiers = {
                 email: email,
                 password: password
             }
+
             const response = onLogin(identifiers)
             response.then((res) => {
                 if (res.status == 200) {
+                    // enregistre le token et les informations de l'utilisateur dans le session storage
                     const user = res.data.user;
                     const token = res.data.token;
                     setToSessionStorage('token', JSON.stringify(token));
-
+                    
+                    // enregistre également les informations de l'utilisateur dans le state globale
                     dispatch(setUserInfo({ user : user }));
                     setToSessionStorage('user', JSON.stringify(user));
                     setIsConnected(true);

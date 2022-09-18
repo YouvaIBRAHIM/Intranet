@@ -2,6 +2,9 @@ import styles from "../styles/Collaborater.module.css";
 import { addeUser } from "../services/Api.service";
 import UserForm from "../components/UserForm";
 
+/**
+ * @returns la page pour ajouter un nouveau collaborateur
+ */
 const NewCollaborater = () => {
 
     return (

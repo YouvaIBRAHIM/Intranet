@@ -5,12 +5,13 @@ import CollaboratersList from './views/CollaboratersList';
 import Collaborater from './views/Collaborater';
 import NewCollaborater from './views/NewCollaborater';
 import Profile from './views/Profile';
+import PageNotFound from './views/PageNotFound';
 import Banner from './components/Banner';
 import { initServiceWorker } from "./services/ServiceWorker.service";
-import PrivateRoute from "./features/PrivateRoute";
-import IndexPageRoute from "./features/IndexPageRoute";
-import IsNotOnlineRoute from "./features/IsNotOnlineRoute";
-import IsAdminRoute from "./features/IsAdminRoute";
+import PrivateRoute from "./customRoutes/PrivateRoute";
+import IndexPageRoute from "./customRoutes/IndexPageRoute";
+import IsNotOnlineRoute from "./customRoutes/IsNotOnlineRoute";
+import IsAdminRoute from "./customRoutes/IsAdminRoute";
 import { useState } from 'react';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
     <BrowserRouter>
       <div>
         {
+          // si l'utilisateur est connecté, on affiche la barre de navigation
           isConnected && 
           <Banner  setIsConnected={setIsConnected}/>
         }
@@ -70,7 +72,9 @@ function App() {
                                                           <NewCollaborater />
                                                         </IsAdminRoute>
                                                       </PrivateRoute>
-                                                    } />                                                    
+                                                    } /> 
+                                                      
+            <Route path="/*" element={<PageNotFound />} />                                                                                                     
           </Routes>
         </div>
       </div>

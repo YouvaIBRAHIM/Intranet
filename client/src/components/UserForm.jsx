@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAllCollaboraters, updateCollaboratersListInGlobalState } from "../reducers/CollaboratersReducer";
-import { setUserInfo } from "../reducers/UserReducer";
+import { addAllCollaboraters, updateCollaboratersListInGlobalState } from "../features/CollaboratersReducer";
+import { setUserInfo } from "../features/UserReducer";
 import { getCollaboratersListFromApi } from "../services/Api.service";
 import { getCollaboraters } from "../services/Collaboraters.service";
-import { getFromSessionStorage, setToSessionStorage } from "../services/SessionStorage.service";
+import { setToSessionStorage } from "../services/Storage.service";
 import { setPhoneNumberFormat, emailVerification } from "../services/Utils.service";
 import styles from "../styles/UserForm.module.css";
 import PopupAlert from "./PopupAlert"
@@ -15,6 +15,7 @@ const UserForm = ({user, actionOnSubmit, isConnectedUserProfile}) => {
     const { collaboraters } = useSelector(state => state.collaboraters);
     getCollaboraters(collaboraters, getCollaboratersListFromApi, addAllCollaboraters, dispatch)
 
+    // structure des information d'un nouveau collaborateur avec certaines valeurs par défaut
     const userInfosStructure = {
                                     "gender": "male",
                                     "firstname": "",
@@ -29,6 +30,7 @@ const UserForm = ({user, actionOnSubmit, isConnectedUserProfile}) => {
                                     "service": "Client"
                                 }
 
+    // contient les informations déjà existant ou celle de la vaiable représant un nouveau collaborateur
     const [userInfos, setUserInfos] = useState(user ? {...user, password: ""} : userInfosStructure)
     const [passwordVerificationField, setPasswordVerificationField] = useState("")
     const [displayPopupAlert, setDisplayPopupAlert]= useState(false)
@@ -36,6 +38,7 @@ const UserForm = ({user, actionOnSubmit, isConnectedUserProfile}) => {
 
     const onSaveBtn = () => {
         
+        // vérifie si les champs ne sont pas vides
         if (userInfos.firstname.trim() == "") {
             setPayload({
                 type: "Attention",
@@ -131,10 +134,13 @@ const UserForm = ({user, actionOnSubmit, isConnectedUserProfile}) => {
         // Si aucune photo n'est fournie, on met par défaut l'image ci-dessous
         const defaultProfileImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
+        // vérifie si l'utilisateur à fournie une photo, sinon on met l'mage par défaut
         const checkedUserIfos = {...userInfos, photo : userInfos.photo.trim() === "" ? defaultProfileImage : userInfos.photo}
+
         const result = actionOnSubmit(checkedUserIfos, user?.id)
         result.then(res => {
             if (res.status == 201) {
+                // met à jour la liste des collaborateurs
                 dispatch(updateCollaboratersListInGlobalState({user : checkedUserIfos, userId : res.data.collaborateur.id}))
                 setPayload({
                     type: "Info",
@@ -142,6 +148,8 @@ const UserForm = ({user, actionOnSubmit, isConnectedUserProfile}) => {
                     typeValidate: false,
                 })
                 setDisplayPopupAlert(true)
+
+                // si l'utilisateur modifie ses propres informations, on met à jour les ses informations dans les state global
                 if (isConnectedUserProfile) {
                     dispatch(setUserInfo({ user : checkedUserIfos }));
                     setToSessionStorage('user', JSON.stringify(checkedUserIfos));

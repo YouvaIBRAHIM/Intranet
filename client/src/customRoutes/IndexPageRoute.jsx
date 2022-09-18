@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getRandomCollaboraterFromApi } from "../services/Api.service";
 import { disconnect } from "../services/Disconnect.service";
 
-export default function PrivateRoute({ children, setIsConnected }) {
+// middleware redirige de la racine vers la view Login ou Home selon si on est connecté ou non
+export default function IndexPageRoute({ setIsConnected }) {
     const navigate = useNavigate();
-    const [isTokenValid, setIsTokenValid] = useState(true);
 
     useEffect(()=>{
         const response = getRandomCollaboraterFromApi();
         response.then((res) => {
             if (res.status == 200) {
                 setIsConnected(true);
-                setIsTokenValid(true)
+                navigate("/home");
             }else{
                 setIsConnected(false);
                 disconnect(navigate);
@@ -23,8 +23,4 @@ export default function PrivateRoute({ children, setIsConnected }) {
             disconnect(navigate);
         }) 
     }, [])
-
-    if (isTokenValid) {
-        return children;
-    }
 }

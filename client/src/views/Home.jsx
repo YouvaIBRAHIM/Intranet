@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 import { getRandomCollaborater } from "../services/Collaboraters.service";
 import styles from "../styles/Home.module.css";
 
+/**
+ * @returns la page affichant un collaborateur au hasard
+ */
 const Home = () => {
     const [randomCollaborater, setRandomCollaborater] = useState(null);
     const { user } = useSelector(state => state.user)

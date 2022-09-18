@@ -3,6 +3,10 @@ import { updateUser } from "../services/Api.service";
 import UserForm from "../components/UserForm";
 import { useSelector } from "react-redux";
 
+/**
+ * 
+ * @returns La page de l'utilisateur connecté
+ */
 const Profile = () => {
     const { user } = useSelector(state => state.user)
 

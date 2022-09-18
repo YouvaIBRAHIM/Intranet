@@ -1,23 +1,29 @@
 import { useRef, useState } from "react";
 import styles from "../styles/Search.module.css";
 import {useSelector, useDispatch} from "react-redux";
-import { filterCollaboratersToDisplay, displayTenFirstCollaboraters } from "../reducers/CollaboratersReducer";
+import { filterCollaboratersToDisplay, displayTenFirstCollaboraters } from "../features/CollaboratersReducer";
 
+/**
+ * @param {Object} enableNextResult Permet de désactiver les prochains résultats une fois en bas de la page
+ * @returns composant représentant la barre de recherche avec les filtres
+ */
 const Search = ({enableNextResult}) => {
     const { collaboraters } = useSelector(state => state.collaboraters)
     const searchValue = useRef('')
     const typeFilter = useRef('name')
     const serviceFilter = useRef('noFilter')
     const [isFoundResult, setIsFoundResult] = useState(true);
-
     const dispatch = useDispatch();
 
+    // filtre la recherche par nom ou localisation
     const onHandleTypeFilter = (event) => {
         if (event.target.type === "radio") {
             typeFilter.current = event.target.id
             filter();
         }
     }
+
+    // filtre la recherche selon le service
     const onHandleServiceFilter = (event) => {
         if (event.target.type === "radio") {
             serviceFilter.current = event.target.id
@@ -25,6 +31,7 @@ const Search = ({enableNextResult}) => {
         }
     }
 
+    // séléctionne la chaine de caractère à vérifier lors de la recherche 
     const getTypeFieldToFilter = (collaborater) => {
         switch (typeFilter.current) {
             case 'name':
@@ -35,6 +42,7 @@ const Search = ({enableNextResult}) => {
                 return `${collaborater.firstname} ${collaborater.lastname}`.toLowerCase();
         }
     }
+
     const onSearch = (event) => {
         searchValue.current = event.target.value;
         // si le contenu de la recherche est vide, on affiche les premiers 10 collaborateurs
@@ -47,21 +55,29 @@ const Search = ({enableNextResult}) => {
     }
 
     const filter = () => {
-        const filtredCollaborater =  collaboraters.filter((collaborater) => {
+        const filtredCollaboraters =  collaboraters.filter((collaborater) => {
             const fieldToFilter = getTypeFieldToFilter(collaborater);
+
             let isMatch = false;
+
+            // recherche que dans un seul service
             if (serviceFilter.current !== "noFilter") {
                 if (fieldToFilter.includes(searchValue.current.trim().toLowerCase()) && collaborater.service.toLowerCase() === serviceFilter.current) {
                     isMatch = true;
                 }
             }else{
+                // recherche dans tous les services
                 isMatch = fieldToFilter.includes(searchValue.current.trim().toLowerCase());
             }
             return isMatch;
         });
+
         enableNextResult.current = false;
-        dispatch(filterCollaboratersToDisplay({collaboratersToDisplay: filtredCollaborater}))
-        if (filtredCollaborater.length == 0) {
+        // met à jour la liste des collaborateurs à afficher
+        dispatch(filterCollaboratersToDisplay({collaboratersToDisplay: filtredCollaboraters}))
+
+        // affiche un message quand aucun resultat n'est trouvé
+        if (filtredCollaboraters.length == 0) {
             setIsFoundResult(false);
         }else{
             setIsFoundResult(true);

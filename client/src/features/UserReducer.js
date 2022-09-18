@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getFromSessionStorage, setToSessionStorage } from "../services/SessionStorage.service";
+import { getFromSessionStorage } from "../services/Storage.service";
 
 let initialState;
 const user = getFromSessionStorage('user');

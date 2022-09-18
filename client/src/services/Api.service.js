@@ -1,7 +1,8 @@
 import axios from "axios";
-import { getFromSessionStorage } from "./SessionStorage.service";
+import { getFromSessionStorage } from "./Storage.service";
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
+// initialisation d'une instance axios
 const instance = axios.create({
   baseURL: baseURL,
   headers: {
@@ -36,7 +37,6 @@ export async function onLogin(identifiers) {
 
 /**
  * récupère un collaborateur au hasard via une requete API
- * @param {String} token 
  * @returns la réponse de la requete API axios 
  */
 export async function getRandomCollaboraterFromApi() {
@@ -52,7 +52,6 @@ export async function getRandomCollaboraterFromApi() {
 
 /**
  * récupère la liste de tous les collaborateurs via une requete API
- * @param {String} token 
  * @returns un tableau d'objets de tous les collaborateurs 
  */
  export async function getCollaboratersListFromApi() {
@@ -67,7 +66,11 @@ export async function getRandomCollaboraterFromApi() {
   }
 }
 
-
+/**
+ * ajoute un collaborateur via une requete API
+ * @param {Object} data informations du nouveau collaborateur
+ * @returns la réponse de la requete API axios 
+ */
 export async function addeUser(data) {
   const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
   
@@ -81,7 +84,12 @@ export async function addeUser(data) {
   }
 }
 
-
+/**
+ * modifie un collaborateur via une requete API
+ * @param {Object} data informations du collaborateur à modifier
+ * @param {Number} id id du collaborateur à modifier
+ * @returns la réponse de la requete API axios 
+ */
 export async function updateUser(data, id) {
   const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
   
@@ -94,7 +102,11 @@ export async function updateUser(data, id) {
   }
 }
 
-
+/**
+ * supprime un collaborateur via une requete API
+ * @param {Number} id id du collaborateur à supprimer
+ * @returns la réponse de la requete API axios 
+ */
 export async function deleteUser(id) {
   const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
   

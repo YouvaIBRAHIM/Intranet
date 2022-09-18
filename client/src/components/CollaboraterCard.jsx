@@ -7,21 +7,27 @@ import moment from "moment";
 import 'moment/dist/locale/fr';
 import { Link } from "react-router-dom";
 import { deleteUser } from "../services/Api.service";
-import { getFromSessionStorage } from "../services/SessionStorage.service";
 import PopupAlert from "./PopupAlert";
-import { deleteCollaboraterInGlobalState } from "../reducers/CollaboratersReducer";
+import { deleteCollaboraterInGlobalState } from "../features/CollaboratersReducer";
 
+/**
+ * @param {Object} user contient les informations sur un collaborateur
+ * @returns le composant correspondant à la card d'un collaborateur
+ */
 const CollaboraterCard = ({user}) => {
     const [displayPopupAlert, setDisplayPopupAlert]= useState(false)
     const [payload, setPayload]= useState({})
     const userState = useSelector(state => state.user);
     const dispatch = useDispatch()
 
+    // calcul de l'age du collaborateur
     const age = moment().diff(user.birthdate, 'years');
+    // formatage du numéro de téléphone
     const numberPhone = user.phone.replaceAll("-", " ");
+    // formatage de la date de naissance
     const birthdate = moment(user.birthdate).locale('fr').format('Do MMMM YYYY');
-    const token = getFromSessionStorage("token");
 
+    // affiche une popup pour confirmer la suppression du collaborateur
     const onDeleteBtn = () => {
         setPayload({
             type: "Attention",
@@ -31,6 +37,7 @@ const CollaboraterCard = ({user}) => {
         setDisplayPopupAlert(true)
     }
 
+    // supprime le collaborateur après confirmation
     const deleteCollaborater = (id) => {
         setDisplayPopupAlert(false)
         const result = deleteUser(id)
@@ -56,16 +63,15 @@ const CollaboraterCard = ({user}) => {
             setDisplayPopupAlert(true)
         })
     }
+
     return (
         <div className={styles.collaboraterCardContainer}>
             {
                 displayPopupAlert &&
                 <PopupAlert type={payload.type} typeValidate={payload.typeValidate} message={payload.message} onConfirm={()=> {deleteCollaborater(user.id)}} setDisplayPopupAlert={setDisplayPopupAlert}/>
             }
-            {/* <img src={user.photo} className={`${styles.collaboraterCardImg}`} alt={`${user.firstname} ${user.lastname}`}/> */}
-            <div style={{backgroundImage: `url(${user.photo})`}} className={`${styles.collaboraterCardImg}`}>
+            <div style={{backgroundImage: `url(${user.photo})`}} className={`${styles.collaboraterCardImg}`}></div>
 
-            </div>
             <div className={styles.cardBody}>
                 <div className={styles.topCardBody}>
                     <h5 className={styles.service}>{user.service}</h5>

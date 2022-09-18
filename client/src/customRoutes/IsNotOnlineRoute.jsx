@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getRandomCollaboraterFromApi } from "../services/Api.service";
-import { getFromSessionStorage } from '../services/SessionStorage.service';
+import { getFromSessionStorage } from '../services/Storage.service';
 
-
+// middleware qui interdit d'acceder à la page de login si on est déjà connecté
 export default function IsNotOnlineRoute({children}) {
     const navigate = useNavigate();
     let [isNotConnected, setIsNotConnected] = useState(false);

@@ -3,9 +3,9 @@ import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { disconnect } from "../services/Disconnect.service";
 import styles from "../styles/Banner.module.css";
 import logoImage from "../assets/logo.png";
-import { getFromSessionStorage } from "../services/SessionStorage.service";
+import { getFromSessionStorage } from "../services/Storage.service";
 import { useDispatch } from 'react-redux';
-import { displayTenFirstCollaboraters } from '../reducers/CollaboratersReducer';
+import { displayTenFirstCollaboraters } from '../features/CollaboratersReducer';
 import { useSelector } from 'react-redux';
 
 /**
@@ -15,6 +15,7 @@ function Banner({ setIsConnected }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector(state => state.user)
+
 
   const onDisconnect = () => {
     setIsConnected(false)

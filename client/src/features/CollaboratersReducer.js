@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setToSessionStorage, getFromSessionStorage } from '../services/SessionStorage.service';
+import { setToLocalStorage, getFromLocalStorage } from '../services/Storage.service';
 
-const collaboratersFromSessionStorage = getFromSessionStorage('collaboraters');
-
+const collaboratersFromSessionStorage = getFromLocalStorage('collaboraters');
+// les collaborateurs sont déjà stockés dans le local storage, on les met dans le state global
 const initialState = {
     collaboratersToDisplay: collaboratersFromSessionStorage ? collaboratersFromSessionStorage.slice(0, 10) : null,
     collaboraters: collaboratersFromSessionStorage ? collaboratersFromSessionStorage : null,
@@ -12,18 +12,25 @@ export const CollaboratersSlice = createSlice({
   name: 'Collaboraters',
   initialState,
   reducers: {
+
     /**
-     * récupère tous les collaborateurs à filtrer dans la barre de recherche
+     * récupère tous les collaborateurs
      */
     addAllCollaboraters: (state, action) => {
       state.collaboraters = action.payload.collaboraters;
       state.collaboratersToDisplay = state.collaboraters.slice(0, 10);
-      setToSessionStorage('collaboraters', JSON.stringify(state.collaboraters));
+      setToLocalStorage('collaboraters', JSON.stringify(state.collaboraters));
     },
+    /**
+    * met à jour les collaborateurs à afficher
+    */
     setCollaboratersToDisplay: (state, action) => {
       const collaboratersToDisplay = action.payload.collaboratersToDisplay;
       state.collaboratersToDisplay = state.collaboratersToDisplay.concat(collaboratersToDisplay);
     },
+    /**
+    * met à jour les collaborateurs à afficher lors d'une recherche
+    */
     filterCollaboratersToDisplay: (state, action) => {
       state.collaboratersToDisplay = action.payload.collaboratersToDisplay;
     },
@@ -33,13 +40,17 @@ export const CollaboratersSlice = createSlice({
     displayTenFirstCollaboraters: (state) => {
       state.collaboratersToDisplay = state.collaboraters.slice(0, 10);
     },
-    
+    /**
+    * supprime un collaborateur de la liste
+    */
     deleteCollaboraterInGlobalState: (state, action) => {
       state.collaboraters = state.collaboraters.filter(collaborater => collaborater.id !== action.payload.userId);
       state.collaboratersToDisplay = state.collaboratersToDisplay.filter(collaborater => collaborater.id !== action.payload.userId);
-      setToSessionStorage('collaboraters', JSON.stringify(state.collaboraters));
+      setToLocalStorage('collaboraters', JSON.stringify(state.collaboraters));
     },
-
+    /**
+    * met à jour les informations d'un collaborateur de la liste ou le rajoute si c'est un nouveau
+    */
     updateCollaboratersListInGlobalState: (state, action) => {
       const userId = action.payload.user?.id;
       const newUserInfos = action.payload.user;
@@ -60,7 +71,7 @@ export const CollaboratersSlice = createSlice({
         state.collaboraters = [...state.collaboraters, {...newUserInfos, id: action.payload.userId}];
         state.collaboratersToDisplay = [...state.collaboratersToDisplay, {...newUserInfos, id: action.payload.userId}];
       }
-      setToSessionStorage('collaboraters', JSON.stringify(state.collaboraters));
+      setToLocalStorage('collaboraters', JSON.stringify(state.collaboraters));
 
     },
   },
