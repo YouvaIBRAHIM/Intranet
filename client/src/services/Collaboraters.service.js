@@ -2,8 +2,7 @@ import { getFromSessionStorage } from "./SessionStorage.service";
 
 export function getCollaboraters(collaboraters, getCollaboratersListFromApi, addAllCollaboraters, dispatch) {
     if (!collaboraters) {
-        const token = getFromSessionStorage('token');
-        const response = getCollaboratersListFromApi(token);
+        const response = getCollaboratersListFromApi();
         response.then((res) => {
             if (res.status == 200) {
                     const collaboratersList = res.data;
@@ -14,8 +13,7 @@ export function getCollaboraters(collaboraters, getCollaboratersListFromApi, add
 }
 
 export const getRandomCollaborater = (getRandomCollaboraterFromApi, setRandomCollaborater) => {
-    const token = getFromSessionStorage('token');
-    const response = getRandomCollaboraterFromApi(token);
+    const response = getRandomCollaboraterFromApi();
     response.then((res) => {
         if (res.status == 200) {
             setRandomCollaborater(res.data)

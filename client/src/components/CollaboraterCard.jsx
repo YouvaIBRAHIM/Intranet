@@ -31,9 +31,9 @@ const CollaboraterCard = ({user}) => {
         setDisplayPopupAlert(true)
     }
 
-    const deleteCollaborater = (token, id) => {
+    const deleteCollaborater = (id) => {
         setDisplayPopupAlert(false)
-        const result = deleteUser(token, id)
+        const result = deleteUser(id)
         result.then(res => {
             if (res.status === 200) {
                 dispatch(deleteCollaboraterInGlobalState({userId: id}))
@@ -60,7 +60,7 @@ const CollaboraterCard = ({user}) => {
         <div className={styles.collaboraterCardContainer}>
             {
                 displayPopupAlert &&
-                <PopupAlert type={payload.type} typeValidate={payload.typeValidate} message={payload.message} onConfirm={()=> {deleteCollaborater(token, user.id)}} setDisplayPopupAlert={setDisplayPopupAlert}/>
+                <PopupAlert type={payload.type} typeValidate={payload.typeValidate} message={payload.message} onConfirm={()=> {deleteCollaborater(user.id)}} setDisplayPopupAlert={setDisplayPopupAlert}/>
             }
             {/* <img src={user.photo} className={`${styles.collaboraterCardImg}`} alt={`${user.firstname} ${user.lastname}`}/> */}
             <div style={{backgroundImage: `url(${user.photo})`}} className={`${styles.collaboraterCardImg}`}>

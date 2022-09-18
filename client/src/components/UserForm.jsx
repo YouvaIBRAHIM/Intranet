@@ -35,7 +35,6 @@ const UserForm = ({user, actionOnSubmit, isConnectedUserProfile}) => {
     const [payload, setPayload]= useState({})
 
     const onSaveBtn = () => {
-        const token = getFromSessionStorage("token");
         
         if (userInfos.firstname.trim() == "") {
             setPayload({
@@ -133,7 +132,7 @@ const UserForm = ({user, actionOnSubmit, isConnectedUserProfile}) => {
         const defaultProfileImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
         const checkedUserIfos = {...userInfos, photo : userInfos.photo.trim() === "" ? defaultProfileImage : userInfos.photo}
-        const result = actionOnSubmit(token, checkedUserIfos, user?.id)
+        const result = actionOnSubmit(checkedUserIfos, user?.id)
         result.then(res => {
             if (res.status == 201) {
                 dispatch(updateCollaboratersListInGlobalState({user : checkedUserIfos, userId : res.data.collaborateur.id}))
@@ -189,7 +188,7 @@ const UserForm = ({user, actionOnSubmit, isConnectedUserProfile}) => {
                     <div className={styles.gender}>
                         <h4 className={styles.title}>Genre</h4>
                         <div className={styles.genderSelect} tabIndex="1">
-                            <input onInput={(event) => setUserInfos({...userInfos, gender: event.target.id})} className={styles.selectopt} name="gender" type="radio" id="male" defaultChecked={user ? (user?.gender === "male" ? true : true): false}/>
+                            <input onInput={(event) => setUserInfos({...userInfos, gender: event.target.id})} className={styles.selectopt} name="gender" type="radio" id="male" defaultChecked={user ? (user?.gender === "male" ? true : true): true}/>
                             <label htmlFor="male" className={styles.genderOption}>Homme</label>
 
                             <input onInput={(event) => setUserInfos({...userInfos, gender: event.target.id})} className={styles.selectopt} name="gender" type="radio" id="female" defaultChecked={user ? (user?.gender === "female" ? true : false): false}/>

@@ -33,10 +33,13 @@ export const CollaboratersSlice = createSlice({
     displayTenFirstCollaboraters: (state) => {
       state.collaboratersToDisplay = state.collaboraters.slice(0, 10);
     },
+    
     deleteCollaboraterInGlobalState: (state, action) => {
       state.collaboraters = state.collaboraters.filter(collaborater => collaborater.id !== action.payload.userId);
       state.collaboratersToDisplay = state.collaboratersToDisplay.filter(collaborater => collaborater.id !== action.payload.userId);
+      setToSessionStorage('collaboraters', JSON.stringify(state.collaboraters));
     },
+
     updateCollaboratersListInGlobalState: (state, action) => {
       const userId = action.payload.user?.id;
       const newUserInfos = action.payload.user;

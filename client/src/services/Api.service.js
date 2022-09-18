@@ -1,4 +1,21 @@
 import axios from "axios";
+import { getFromSessionStorage } from "./SessionStorage.service";
+
+const baseURL = import.meta.env.VITE_SERVER_URL;
+const instance = axios.create({
+  baseURL: baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+instance.interceptors.request.use((config) => {
+  const token = getFromSessionStorage('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 /**
  * permet de s'authentifier via une requete API de type POST 
@@ -6,11 +23,11 @@ import axios from "axios";
  * @returns Si les identifiants sont correctes, la fonction retourne les informations de l'utilisateur et un token valide, sinon elle retourne une erreur
  */
 export async function onLogin(identifiers) {
-  const serverUrl = import.meta.env.VITE_SERVER_URL;
   const loginApi = import.meta.env.VITE_LOGIN_API;  
   
   try {
-    const response = await axios.post(`${serverUrl}${loginApi}`, identifiers)
+    const response = await instance.post(loginApi, identifiers)
+
     return response;
   } catch (error) {
     return error.response;
@@ -22,16 +39,11 @@ export async function onLogin(identifiers) {
  * @param {String} token 
  * @returns la réponse de la requete API axios 
  */
-export async function getRandomCollaboraterFromApi(token) {
-  const serverUrl = import.meta.env.VITE_SERVER_URL;
+export async function getRandomCollaboraterFromApi() {
   const randomCollaboraterApi = import.meta.env.VITE_RANDOM_COLLABORATER_API;  
   
   try {
-    const response = await axios.get(`${serverUrl}${randomCollaboraterApi}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    const response = await instance.get(randomCollaboraterApi)
     return response;
   } catch (error) {
     return error.response;
@@ -43,16 +55,12 @@ export async function getRandomCollaboraterFromApi(token) {
  * @param {String} token 
  * @returns un tableau d'objets de tous les collaborateurs 
  */
- export async function getCollaboratersListFromApi(token) {
-  const serverUrl = import.meta.env.VITE_SERVER_URL;
+ export async function getCollaboratersListFromApi() {
   const collaboraterListApi = import.meta.env.VITE_COLLABORATERS_LIST_API;  
   
   try {
-    const response = await axios.get(`${serverUrl}${collaboraterListApi}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    const response = await instance.get(collaboraterListApi)
+
     return response;
   } catch (error) {
     return error.response;
@@ -60,36 +68,25 @@ export async function getRandomCollaboraterFromApi(token) {
 }
 
 
-export async function addeUser(token, data) {
-  const serverUrl = import.meta.env.VITE_SERVER_URL;
+export async function addeUser(data) {
   const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
   
   try {
-    const response = await axios.post(`${serverUrl}${handleUserApi}`, data,
-    {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    const response = await instance.post(handleUserApi, data);
+
     return response;
   } catch (error) {
-    console.log(error);
+
     return error.message;
   }
 }
 
 
-export async function updateUser(token, data, id) {
-  const serverUrl = import.meta.env.VITE_SERVER_URL;
+export async function updateUser(data, id) {
   const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
   
   try {
-    const response = await axios.put(`${serverUrl}${handleUserApi}/${id}`, data,
-    {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    const response = await instance.put(`${handleUserApi}/${id}`, data)
 
     return response;
   } catch (error) {
@@ -98,20 +95,15 @@ export async function updateUser(token, data, id) {
 }
 
 
-export async function deleteUser(token, id) {
-  const serverUrl = import.meta.env.VITE_SERVER_URL;
+export async function deleteUser(id) {
   const handleUserApi = import.meta.env.VITE_HANDLE_USER_API;  
   
   try {
-    const response = await axios.delete(`${serverUrl}${handleUserApi}/${id}`,
-    {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    const response = await instance.delete(`${handleUserApi}/${id}`)
 
     return response;
   } catch (error) {
+
     return error.response.data.error;
   }
 }

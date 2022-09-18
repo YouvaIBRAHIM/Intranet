@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getRandomCollaboraterFromApi } from "../services/Api.service";
 import { getFromSessionStorage } from '../services/SessionStorage.service';
@@ -11,7 +11,7 @@ export default function IsNotOnlineRoute({children}) {
 
     useEffect(()=>{
         if (token) {
-            const response = getRandomCollaboraterFromApi(token);
+            const response = getRandomCollaboraterFromApi();
             response.then((res) => {
                 if (res.status == 200) {
                     navigate("/home");
