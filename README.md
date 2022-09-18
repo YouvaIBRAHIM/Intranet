@@ -1,5 +1,5 @@
 # Intranet
-Web app vous permettant découvrir vos collaborateurs
+Web app vous permettant de découvrir vos collaborateurs
 
 ## Installation
 
