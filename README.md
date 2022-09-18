@@ -1,4 +1,4 @@
-# Intrane
+# Intranet
 Web app vous permettant découvrir vos collaborateurs
 
 ## Installation
