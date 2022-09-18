@@ -62,6 +62,7 @@ const LoginPage = ({ setIsConnected }) => {
 
     return (
         <div className={styles.container}>
+            <img src="../src/assets/logo.png" alt="logo"  />
             <h1>Bienvenue dans l'intranet de l'École Multimédia</h1>
             <div className={styles.formContainer}>
                 <h2>Login</h2>
