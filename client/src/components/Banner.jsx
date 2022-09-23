@@ -3,7 +3,6 @@ import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { disconnect } from "../services/Disconnect.service";
 import styles from "../styles/Banner.module.css";
 import logoImage from "../assets/logo.png";
-import { getFromSessionStorage } from "../services/Storage.service";
 import { useDispatch } from 'react-redux';
 import { displayTenFirstCollaboraters } from '../features/CollaboratersReducer';
 import { useSelector } from 'react-redux';
@@ -38,6 +37,14 @@ function Banner({ setIsConnected }) {
               <span className={styles.materialIconsOutlined}> Liste </span>
             </NavLink>
           </li>
+          {
+            user?.isAdmin &&
+            <li>
+              <NavLink  className={({ isActive }) => isActive ? styles.isActive : ""} to="/collaboraters/new">
+                <span className={styles.materialIconsOutlined}> Ajouter un collaborateur </span>
+              </NavLink>              
+            </li>
+          }
           <li>
             <img src={user?.photo} alt="photo de profile" className={styles.profile} />
             <ul>
@@ -46,14 +53,6 @@ function Banner({ setIsConnected }) {
                   <span className={styles.materialIconsOutlined}> Mon compte </span>
                 </Link>              
               </li>
-              {
-                user?.isAdmin &&
-                <li className={styles.subItem}>
-                  <Link to="/collaboraters/new">
-                    <span className={styles.materialIconsOutlined}> Ajouter un collaborateur </span>
-                  </Link>              
-                </li>
-              }
               <li className={styles.subItem}>
                 <span onClick={onDisconnect} className={`${styles.materialIconsOutlined} ${styles.disconnectBtn}`}> Déconnexion </span>
               </li>

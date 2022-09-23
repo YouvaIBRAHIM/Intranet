@@ -51,11 +51,12 @@ function App() {
                                           </PrivateRoute>
                                         }
             />
+
             <Route path="/profile" element={
-                                          <PrivateRoute  setIsConnected={setIsConnected}>
-                                            <Profile />
-                                          </PrivateRoute>
-                                        }
+                                              <PrivateRoute  setIsConnected={setIsConnected}>
+                                                <Profile />
+                                              </PrivateRoute>
+                                            }
             />
 
             <Route path="/collaboraters/:id" element={

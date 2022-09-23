@@ -25,7 +25,7 @@ const LoginPage = ({ setIsConnected }) => {
         setState(value);
     }
     
-    // s'exécute quand on appuie "Se connecter"
+    // s'exécute quand on appuie sur "Se connecter"
     function onHandleSubmit(){
         // verifie si les champs ne sont pas vides
         if (email.trim() !== "" && password.trim() !== "" ) {
