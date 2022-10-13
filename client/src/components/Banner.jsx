@@ -40,11 +40,12 @@ function Banner({ setIsConnected }) {
           {
             user?.isAdmin &&
             <li>
-              <NavLink  className={({ isActive }) => isActive ? styles.isActive : ""} to="/collaboraters/new">
+              <NavLink  className={({ isActive }) => isActive ? styles.isActive : ""} to="/collaborater/new">
                 <span className={styles.materialIconsOutlined}> Ajouter un collaborateur </span>
               </NavLink>              
             </li>
           }
+          
           <li>
             <img src={user?.photo} alt="photo de profile" className={styles.profile} />
             <ul>

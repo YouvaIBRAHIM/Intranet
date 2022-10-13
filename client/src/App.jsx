@@ -67,7 +67,7 @@ function App() {
                                                       </PrivateRoute>
                                                     } />
 
-            <Route path="/collaboraters/new" element={
+            <Route path="/collaborater/new" element={
                                                       <PrivateRoute  setIsConnected={setIsConnected}>
                                                         <IsAdminRoute>
                                                           <NewCollaborater />
